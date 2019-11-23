@@ -2,13 +2,14 @@
     "name": "nodejs-restful",
     "private": true,
     "scripts": {
-        "start": "",
-        "start-dev": ""
+        "start": "node ./src/server",
+        "start-dev": "nodemon ./src/server"
     },
     "dependencies": {
         "cors": "^2.8.5",
         "express": "^4.17.1",
         "helmet": "^3.21.2",
+        "http-status-codes": "^1.4.0",
         "morgan": "^1.9.1"
     },
     "devDependencies": {
