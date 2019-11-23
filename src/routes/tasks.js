@@ -60,17 +60,13 @@ router.patch('/:id', checkAuth, (request, response) => {
 
 });
 
-router.delete('/:id', (request, response) => {
+router.delete('/:id', async (request, response) => {
 
-  const data = {
-    id: request.params.id,
-    message: 'Handling DELETE resquests for tasks!'
-  }
-
-  response
-    .status(HttpStatus.OK)
-    .json(data);
-
+  const isDelete = await TaskService.delete(request.params.id);
+  isDelete
+    ? response.status(HttpStatus.OK).end()
+    : response.status(HttpStatus.NOT_FOUND).end()
+  
 });
 
 module.exports = router;
