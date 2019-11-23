@@ -46,17 +46,17 @@ router.post('/', checkAuth, async (request, response) => {
 
 });
 
-router.patch('/:id', checkAuth, (request, response) => {
+router.patch('/:id', checkAuth, async (request, response) => {
 
-  const data = {
-    id: request.params.id,
-    data: request.body,
-    message: 'Handling PATCH resquests for tasks!'
-  }
+  const updatedTask = await TaskService.update(
+    request.params.id,
+    request.body
+    );
 
-  response
-    .status(HttpStatus.OK)
-    .json(data);
+  updatedTask
+    && response.status(HttpStatus.OK).end();
+
+  response.status(HttpStatus.NOT_FOUND).end();
 
 });
 
