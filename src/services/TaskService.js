@@ -18,7 +18,7 @@ class TaskService {
     })
   }
 
-  static GetAll() {
+  static getAll() {
 
     const toArray = key => db[key];
 
@@ -26,6 +26,12 @@ class TaskService {
 
       const tasks = Object.keys(db).map(toArray);
       resolve(tasks);
+    })
+  }
+
+  static getById(id) {
+    return new Promise((resolve) => {
+      resolve(db[id]);
     })
   }
 }

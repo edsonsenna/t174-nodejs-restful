@@ -9,7 +9,7 @@ const TaskService = require('../services/TaskService');
 
 router.get('/', async (request, response) => {
 
-  const tasks = await TaskService.GetAll();
+  const tasks = await TaskService.getAll();
 
   tasks && tasks.length
     ? response.status(HttpStatus.OK).json(tasks)
@@ -17,9 +17,12 @@ router.get('/', async (request, response) => {
 
 });
 
-router.get('/:id', (request, response) => {
+router.get('/:id', async (request, response) => {
+
+  const task = await TaskService.getById(request.params.id);
 
   const data = {
+    task,
     message: `Handling ${request.protocol} ${request.method} by ID ${request.params.id} requests for tasks!`
   }
 
