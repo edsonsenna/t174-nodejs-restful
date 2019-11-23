@@ -13,6 +13,7 @@ const tasksRouter = require('./routes/tasks');
 app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
+app.use(express.json());
 
 app.use('/api/tasks', tasksRouter);
 app.use(notFoundMiddleware);

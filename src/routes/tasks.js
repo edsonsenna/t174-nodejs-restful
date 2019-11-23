@@ -3,16 +3,17 @@ const router = express.Router();
 
 const HttpStatus = require('http-status-codes');
 
+const checkAuth = require('../middleware/check-auth');
+const TaskService = require('../services/TaskService');
 
-router.get('/', (request, response) => {
 
-  const data = {
-    message: `Handling ${request.protocol} ${request.method} requests for tasks!`
-  }
+router.get('/', async (request, response) => {
 
-  response
-    .status(HttpStatus.OK)
-    .json(data);
+  const tasks = await TaskService.GetAll();
+
+  tasks && tasks.length
+    ? response.status(HttpStatus.OK).json(tasks)
+    : response.status(HttpStatus.NO_CONTENT).end();
 
 });
 
@@ -28,9 +29,11 @@ router.get('/:id', (request, response) => {
   
 })
 
-router.post('/', (request, response) => {
+router.post('/', checkAuth, async (request, response) => {
 
+  const task = await TaskService.add(request.body);
   const data = {
+    task,
     message: 'Handling POST resquests for tasks!'
   }
 
@@ -40,7 +43,7 @@ router.post('/', (request, response) => {
 
 });
 
-router.patch('/:id', (request, response) => {
+router.patch('/:id', checkAuth, (request, response) => {
 
   const data = {
     id: request.params.id,
